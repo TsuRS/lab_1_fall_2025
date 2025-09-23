@@ -43,16 +43,19 @@ class JointStateSubscriber(Node):
         self.create_timer(1.0 / LOOP_RATE, self.control_loop)
 
     def get_target_joint_info(self):
-        # target_joint_pos, target_joint_vel
-        return 0, 0
+        """Set an arbitrary target joint position and velocity here"""
+        # target_joint_pos = np.pi / 2 + np.sin(2 * np.pi * 0.1 * time.time())
+        return 0, 0  # target_joint_pos, target_joint_vel
 
     def calculate_torque(self, joint_pos, joint_vel, target_joint_pos, target_joint_vel):
 
         # BANG BANG CONTROL
         if (joint_pos < target_joint_pos):
             return MAX_TORQUE
-        else:
+        elif (joint_pos > target_joint_pos):
             return (0 - MAX_TORQUE)
+        else:
+            return 0.0
 
     def print_info(self):
         """Print joint information every 2 control loops"""
