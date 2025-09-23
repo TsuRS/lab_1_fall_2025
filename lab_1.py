@@ -10,7 +10,7 @@ import signal
 JOINT_NAME = "leg_front_l_1"
 ####
 ####
-KP = 2.5 # YOUR KP VALUE
+KP = 3.0 # YOUR KP VALUE
 KD = 0.1  # YOUR KD VALUE
 ####
 ####
