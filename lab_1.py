@@ -53,7 +53,7 @@ class JointStateSubscriber(Node):
         # range of target pos: 0-26 
         current_time = time.time()
         joint_pos_desired = math.sin(current_time)
-        return joint_pos_desired, 0  # target_joint_pos, target_joint_vel
+        return 3.14, 0  # target_joint_pos, target_joint_vel
 
     def calculate_torque(self, joint_pos, joint_vel, target_joint_pos, target_joint_vel):
         """Calculate the torque using PD"""
