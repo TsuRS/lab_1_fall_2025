@@ -29,7 +29,8 @@ class JointStateSubscriber(Node):
         self.subscription  # prevent unused variable warning
 
         # Publisher to the /forward_command_controller/commands topic
-        self.command_publisher = self.create_publisher(Float64MultiArray, "/forward_command_controller/commands", 10)
+        self.command_publisher = self.create_publisher(
+            Float64MultiArray, "/forward_command_controller/commands", 10)
         self.print_counter = 0
         self.calculated_torque = 0
         self.joint_pos = 0
@@ -41,25 +42,19 @@ class JointStateSubscriber(Node):
         # Create a timer to run control_loop at the specified frequency
         self.create_timer(1.0 / LOOP_RATE, self.control_loop)
 
-    def get_target_joint_info(self):
-        ####
-        #### YOUR CODE HERE
-        ####
-
-        # target_joint_pos, target_joint_vel
-        return 0, 0
+    def get_target_joint_info(self):  # target_joint_pos, target_joint_vel
+        """Set an arbitrary target joint position and velocity here"""
+        # target_joint_pos = 0.5 * np.sin(2 * np.pi * 0.1 * time.time())
+        #
+        return 1, 0.0
 
     def calculate_torque(self, joint_pos, joint_vel, target_joint_pos, target_joint_vel):
-        ####
-        #### YOUR CODE HERE
-        ####
-        #### BANG BANG CONTROL
+
+        # BANG BANG CONTROL
         if (joint_pos < target_joint_pos):
             return MAX_TORQUE
         else:
             return (0 - MAX_TORQUE)
-        
-        #### return 0.0
 
     def print_info(self):
         """Print joint information every 2 control loops"""
@@ -108,16 +103,17 @@ def main(args=None):
 
     # Install a SIGINT handler that sends zero torque BEFORE shutting down the context
     def _handle_sigint(sig, frame):
-        joint_state_subscriber.get_logger().info("SIGINT received: sending zero torque and shutting down...")
+        joint_state_subscriber.get_logger().info(
+            "SIGINT received: sending zero torque and shutting down...")
         joint_state_subscriber.publish_torque(0.0)
-        time.sleep(0.1) 
+        time.sleep(0.1)
         joint_state_subscriber.publish_torque(0.0)
         rclpy.shutdown()
 
     signal.signal(signal.SIGINT, _handle_sigint)
 
     rclpy.spin(joint_state_subscriber)
-  
+
 
 if __name__ == "__main__":
     main()
