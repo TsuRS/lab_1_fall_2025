@@ -6,6 +6,8 @@ import numpy as np
 import time
 from collections import deque
 import signal
+import time
+import math
 
 JOINT_NAME = "leg_front_l_1"
 ####
@@ -49,7 +51,9 @@ class JointStateSubscriber(Node):
         """Set an arbitrary target joint position and velocity here"""
         # target_joint_pos = np.pi / 2 + np.sin(2 * np.pi * 0.1 * time.time())
         # range of target pos: 0-26 
-        return 3.14, 0  # target_joint_pos, target_joint_vel
+        current_time = time.time()
+        joint_pos_desired = math.sin(current_time)
+        return joint_pos_desired, 0  # target_joint_pos, target_joint_vel
 
     def calculate_torque(self, joint_pos, joint_vel, target_joint_pos, target_joint_vel):
         """Calculate the torque using PD"""
@@ -81,8 +85,8 @@ class JointStateSubscriber(Node):
         """Control control loop to calculate and publish torque commands"""
         self.target_joint_pos, self.target_joint_vel = self.get_target_joint_info()
 
-        self.angle_buffer.append(joint_pos)
-        self.velocity_buffer.append(joint_vel)
+        self.angle_buffer.append(self.joint_pos)
+        self.velocity_buffer.append(self.joint_vel)
         joint_pos = self.angle_buffer[0]
         joint_vel = self.velocity_buffer[0]
 
