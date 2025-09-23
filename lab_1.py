@@ -10,8 +10,8 @@ import signal
 JOINT_NAME = "leg_front_l_1"
 ####
 ####
-KP = 0.0  # YOUR KP VALUE
-KD = 0.0  # YOUR KD VALUE
+KP = 2.0  # YOUR KP VALUE
+KD = 0.3  # YOUR KD VALUE
 ####
 ####
 LOOP_RATE = 200  # Hz
@@ -49,14 +49,10 @@ class JointStateSubscriber(Node):
         return 8, 0  # target_joint_pos, target_joint_vel
 
     def calculate_torque(self, joint_pos, joint_vel, target_joint_pos, target_joint_vel):
-
-        # BANG BANG CONTROL
-        if (joint_pos < target_joint_pos):
-            return MAX_TORQUE
-        elif (joint_pos > target_joint_pos):
-            return (0 - MAX_TORQUE)
-        else:
-            return 0.0
+        """Calculate the torque using PD"""
+        # YOUR CODE HERE
+        torque = KP * (target_joint_pos - joint_pos) + KD * (target_joint_vel - joint_vel)
+        return torque
 
     def print_info(self):
         """Print joint information every 2 control loops"""
