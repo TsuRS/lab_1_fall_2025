@@ -37,6 +37,9 @@ class JointStateSubscriber(Node):
         self.joint_vel = 0
         self.target_joint_pos = 0
         self.target_joint_vel = 0
+        self.delay_buffer_size = 2 # set buffer size to 2
+        self.angle_buffer = deque(maxlen=self.delay_buffer_size)
+        self.velocity_buffer = deque(maxlen=self.delay_buffer_size)
         # self.torque_history = deque(maxlen=DELAY)
 
         # Create a timer to run control_loop at the specified frequency
@@ -77,8 +80,14 @@ class JointStateSubscriber(Node):
     def control_loop(self):
         """Control control loop to calculate and publish torque commands"""
         self.target_joint_pos, self.target_joint_vel = self.get_target_joint_info()
+
+        self.angle_buffer.append(joint_pos)
+        self.velocity_buffer.append(joint_vel)
+        joint_pos = self.angle_buffer[0]
+        joint_vel = self.velocity_buffer[0]
+
         self.calculated_torque = self.calculate_torque(
-            self.joint_pos, self.joint_vel, self.target_joint_pos, self.target_joint_vel
+            joint_pos, joint_vel, self.target_joint_pos, self.target_joint_vel
         )
         self.print_info()
         self.publish_torque(self.calculated_torque)
