@@ -10,7 +10,7 @@ import signal
 JOINT_NAME = "leg_front_l_1"
 ####
 ####
-KP = 5.0 # YOUR KP VALUE
+KP = 2.0 # YOUR KP VALUE
 KD = 0.1  # YOUR KD VALUE
 ####
 ####
@@ -52,7 +52,7 @@ class JointStateSubscriber(Node):
         """Calculate the torque using PD"""
         # YOUR CODE HERE
         scaled_joint_pos = joint_pos % 6.28  # Wrap position to [0, 2π]
-        torque = KP * (target_joint_pos - scaled_joint_pos) + KD * (target_joint_vel - joint_vel)
+        torque = KP * (target_joint_pos - joint_pos)
         return torque
 
     def print_info(self):
