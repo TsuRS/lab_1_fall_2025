@@ -39,7 +39,7 @@ class JointStateSubscriber(Node):
         self.joint_vel = 0
         self.target_joint_pos = 0
         self.target_joint_vel = 0
-        self.delay_buffer_size = 2 # set buffer size to 2
+        self.delay_buffer_size = 1 # set buffer size to 2
         self.angle_buffer = deque(maxlen=self.delay_buffer_size)
         self.velocity_buffer = deque(maxlen=self.delay_buffer_size)
         # self.torque_history = deque(maxlen=DELAY)
