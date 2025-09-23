@@ -39,7 +39,7 @@ class JointStateSubscriber(Node):
         self.joint_vel = 0
         self.target_joint_pos = 0
         self.target_joint_vel = 0
-        self.delay_buffer_size = 10 # set buffer size to 2
+        self.delay_buffer_size = 1 # set buffer size to 2
         self.angle_buffer = deque(maxlen=self.delay_buffer_size)
         self.velocity_buffer = deque(maxlen=self.delay_buffer_size)
         # self.torque_history = deque(maxlen=DELAY)
@@ -53,7 +53,7 @@ class JointStateSubscriber(Node):
         # range of target pos: 0-26 
         current_time = time.time()
         joint_pos_desired = math.sin(current_time)
-        return 3.14, 0  # target_joint_pos, target_joint_vel
+        return joint_pos_desired, 0  # target_joint_pos, target_joint_vel
 
     def calculate_torque(self, joint_pos, joint_vel, target_joint_pos, target_joint_vel):
         """Calculate the torque using PD"""
