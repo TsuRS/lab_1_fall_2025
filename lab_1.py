@@ -53,8 +53,13 @@ class JointStateSubscriber(Node):
         ####
         #### YOUR CODE HERE
         ####
+        #### BANG BANG CONTROL
+        if (joint_pos < target_joint_pos):
+            return MAX_TORQUE
+        else:
+            return (0 - MAX_TORQUE)
         
-        return 0.0
+        #### return 0.0
 
     def print_info(self):
         """Print joint information every 2 control loops"""
