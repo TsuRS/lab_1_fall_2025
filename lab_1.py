@@ -46,7 +46,7 @@ class JointStateSubscriber(Node):
         """Set an arbitrary target joint position and velocity here"""
         # target_joint_pos = np.pi / 2 + np.sin(2 * np.pi * 0.1 * time.time())
         # range of target pos: 0-26 
-        return 1, 0  # target_joint_pos, target_joint_vel
+        return 13, 0  # target_joint_pos, target_joint_vel
 
     def calculate_torque(self, joint_pos, joint_vel, target_joint_pos, target_joint_vel):
         """Calculate the torque using PD"""
