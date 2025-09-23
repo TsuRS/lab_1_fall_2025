@@ -10,8 +10,8 @@ import signal
 JOINT_NAME = "leg_front_l_1"
 ####
 ####
-KP = 1.0 # YOUR KP VALUE
-KD = 0.5  # YOUR KD VALUE
+KP = 0.5 # YOUR KP VALUE
+KD = 0.1  # YOUR KD VALUE
 ####
 ####
 LOOP_RATE = 200  # Hz
@@ -51,7 +51,6 @@ class JointStateSubscriber(Node):
     def calculate_torque(self, joint_pos, joint_vel, target_joint_pos, target_joint_vel):
         """Calculate the torque using PD"""
         # YOUR CODE HERE
-        scaled_joint_pos = joint_pos % 6.28  # Wrap position to [0, 2π]
         torque = KP * (target_joint_pos - joint_pos) + KD * (target_joint_vel - joint_vel)
         return torque
 
