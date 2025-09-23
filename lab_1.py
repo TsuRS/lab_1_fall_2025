@@ -52,7 +52,7 @@ class JointStateSubscriber(Node):
         # target_joint_pos = np.pi / 2 + np.sin(2 * np.pi * 0.1 * time.time())
         # range of target pos: 0-26 
         current_time = time.time()
-        joint_pos_desired = 4 * math.sin(current_time / 4)
+        joint_pos_desired = math.sin(current_time)
         return joint_pos_desired, 0  # target_joint_pos, target_joint_vel
 
     def calculate_torque(self, joint_pos, joint_vel, target_joint_pos, target_joint_vel):
